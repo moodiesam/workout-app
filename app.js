@@ -9,6 +9,8 @@ const usersRouter = require('./routes/users');
 
 const app = express();
 
+require("dotenv").config();
+
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 const mongoDB=process.env.mongourl;
@@ -29,7 +31,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
