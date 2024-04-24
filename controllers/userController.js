@@ -2,6 +2,7 @@ const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const { token } = require("morgan");
 
 // Generate JWT
 
@@ -49,22 +50,47 @@ exports.create_user = asyncHandler(async (req, res) => {
 
 // Log In User
 exports.login_user = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: "Log In User" })
+    const { email, password } = req.body;
+
+    const user = await User.findOne({email});
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+        res.json({
+            id: user.id,
+            email: user.email,
+            token: generateToken(user.id)
+        })
+    } else {
+        res.status(400).json({ message: "Invalid User Credentials" })
+    }
 })
 
 // Get a Specific Users
 exports.get_user = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: `Get user with id: ${req.params.id}` })
+    const {_id, name, email} = await User.findById(req.user.id);
+
+    res.status(200).json({ id: _id, name, email })
 })
 
 // Get all User
 exports.get_users = asyncHandler(async (req, res) => {
+    // IS THIS NEEDED FOR ADMIN?
+
     res.status(200).json({ message: "Get all Users" })
 })
 
 // Update a User
 exports.update_user = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: `Update user with id: ${req.params.id}` })
+    const user = await User.findById(req.user.id)
+
+    if (!user) {
+        res.status(400).json({ message: "User not found" })
+        return;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {new: true})
+
+    res.json({ updatedUser })
 })
 
 // Delete a User

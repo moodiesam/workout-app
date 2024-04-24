@@ -3,25 +3,74 @@ const asyncHandler = require("express-async-handler");
 
 // Create an Exercise Type
 exports.create_exerciseType = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: "Create an Exercise Type" })
+    if(!req.body.title) {
+        res.status(400).json({ message: "Please include a title for this type of exercise." })
+        return;
+    }
+
+    if(!req.body.description) {
+        res.status(400).json({ message: "Please include a description of this type of exercise." })
+        return;
+    }
+
+    const newExerciseType = await ExerciseType.create({
+        title: req.body.title,
+        description: req.body.description
+    })
+
+    res.status(200).json({ newExerciseType })
 })
 
 // Get a Specific Exercise Type
 exports.get_exerciseType = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: "Get an Exercise Type" })
+    const exerciseType = await ExerciseType.findById(req.params.id)
+
+    if (!exerciseType) {
+        res.status(400).json({ message: "Exercise Type not found." })
+        return;
+    }
+
+    res.status(200).json({ exerciseType })
 })
 
 // Get all Exercise Types
 exports.get_exerciseTypes = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: "Get all Exercise Types" })
+    const allExerciseTypes = await ExerciseType.find();
+
+    if(!allExerciseTypes) {
+        res.status(400).json({ message: "No Exercise Types found." })
+        return;
+    }
+
+    res.status(200).json({ allExerciseTypes })
 })
 
 // Update an Exercise Type
 exports.update_exerciseType = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: "Update an Exercise Type" })
+    const exerciseType = await ExerciseType.findById(req.params.id)
+
+    if(!exerciseType) {
+        res.status(400).json({ message: "Exercise Type not found." })
+        return;
+    }
+
+    const updatedExerciseType = await ExerciseType.findByIdAndUpdate(req.params.id, req.body, {new: true})
+
+    res.json({ updatedExerciseType })
 })
 
 // Delete and Exercise Type
 exports.delete_exerciseType = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: "Delete an Exercise Type" })
+    // Will need to figure out how to deal with exercises that reference type
+    
+    const exerciseType = await ExerciseType.findById(req.params.id)
+
+    if(!exerciseType) {
+        res.status(400).json({ message: "Exercise Type not found." })
+        return;
+    }
+
+    await ExerciseType.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ message: `Exercise Type: ${exerciseType.title}... has been deleted.` })
 })

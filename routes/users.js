@@ -10,13 +10,13 @@ router.post('/', user_controller.create_user);
 router.post('/login', user_controller.login_user);
 
 // Get User Information
-router.get('/:id', user_controller.get_user);
+router.get('/info', protect, user_controller.get_user);
 
 // Get all Users
 router.get('/', user_controller.get_users);
 
 // Update User
-router.put('/:id', user_controller.update_user);
+router.put('/:id', protect, user_controller.update_user);
 
 // Delete User
 router.delete('/:id', user_controller.delete_user);

@@ -8,7 +8,7 @@ const ExerciseTypeSchema = new Schema ({
 
 // Vitual for Exercise Type's URL
 ExerciseTypeSchema.virtual("url").get(function () {
-    return `/api/exercisetype/${this._id}`;
+    return `/api/exercisetypes/${this._id}`;
 })
 
 //Export Model

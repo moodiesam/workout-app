@@ -8,4 +8,8 @@ const UserSchema = new Schema({
     savedWorkouts: [{ type: Schema.Types.ObjectId, ref: "Routine" }],
 });
 
+UserSchema.virtual("url").get(function () {
+    return `/api/users/${this._id}`;
+})
+
 module.exports = mongoose.model("User", UserSchema);
