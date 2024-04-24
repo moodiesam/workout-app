@@ -16,6 +16,6 @@ router.get('/', exercise_controller.get_exercises)
 router.put('/:id', exercise_controller.update_exercise)
 
 // Delete an Exercise
-router.delete('/id', exercise_controller.delete_exercise)
+router.delete('/:id', exercise_controller.delete_exercise)
 
 module.exports = router;
