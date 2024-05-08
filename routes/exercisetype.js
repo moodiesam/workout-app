@@ -10,7 +10,7 @@ router.post('/', exercisetype_controller.create_exerciseType)
 router.get('/:id', exercisetype_controller.get_exerciseType)
 
 // Get all exercisetypes
-router.get('/', exercisetype_controller.get_exerciseTypes)
+router.get('/', protect, exercisetype_controller.get_exerciseTypes)
 
 // Update an exercisetype
 router.put('/:id', exercisetype_controller.update_exerciseType)

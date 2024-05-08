@@ -38,7 +38,7 @@ exports.get_exercise = asyncHandler(async (req, res) => {
 
 // Get all Exercises
 exports.get_exercises = asyncHandler(async (req, res) => {
-    const exercises = await Exercise.find();
+    const exercises = await Exercise.find().populate("exerciseType");
 
     if(!exercises) {
         res.status(400).json({ message: "No exercises found." })

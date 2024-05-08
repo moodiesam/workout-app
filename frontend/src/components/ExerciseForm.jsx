@@ -1,12 +1,14 @@
-import { useState } from "react"
-import { useDispatch } from "react-redux"
-import {createExercise} from "../features/exercises/exerciseSlice"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { createExercise } from "../features/exercises/exerciseSlice"
+import { getExerciseTypes, resetExerciseTypes } from "../features/exerciseTypes/exerciseTypeSlice"
+import ExerciseTypeOption from "./ExerciseTypeOption"
 
 function ExerciseForm() {
     // Set form state similar to how register did it
     const [exerciseFormData, setExerciseFormData] = useState({
         title: '',
-        exerciseType: '', // Needs to be a dropdown list existing types
+        exerciseType: '',
         description: '',
         focusArea: '',
         instructions: '',
@@ -14,9 +16,21 @@ function ExerciseForm() {
     })
 
     const {title, exerciseType, description, focusArea, instructions, tips} = exerciseFormData
+    const { exerciseTypes, isLoading, isError, message } = useSelector((state) => state.exerciseTypes)
 
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        dispatch(getExerciseTypes())
+
+        if(isError) {
+            console.log(message)
+        }
+
+        return () => {
+            dispatch(resetExerciseTypes())
+        }
+    }, [dispatch]) // isError and message HIT A LOOP WHEN I LOGOUT
     //function for onChange
 
     const onChange = (e) => {
@@ -29,10 +43,22 @@ function ExerciseForm() {
     const onSubmit = e => {
         e.preventDefault()
 
-        dispatch(createExercise({exerciseFormData}))
+        const exerciseData = {
+            title, 
+            exerciseType, 
+            description, 
+            focusArea, 
+            instructions, 
+            tips
+        }
+
+        console.log(exerciseData)
+
+        dispatch(createExercise(exerciseData))
+
         setExerciseFormData({
             title: '',
-            exerciseType: '', // Needs to be a dropdown list existing types
+            exerciseType: '',
             description: '',
             focusArea: '',
             instructions: '',
@@ -46,10 +72,19 @@ function ExerciseForm() {
                 <label htmlFor="title">Exercise Title</label>
                 <input type="text" className="form-controll" id="title" name="title" value={title} onChange={onChange} />
             </div>
-            <div className="form-group">
-                <label htmlFor="exerciseType">Exercise Type</label>
-                <input type="text" className="form-controll" id="exerciseType" name="exerciseType" value={exerciseType} onChange={onChange} />
-            </div>
+            <div className="form-group">           
+                {exerciseTypes.exerciseTypes ? (
+                    <label htmlFor="exerciseType">Exercise Type
+                        <select id="exerciseType" name="exerciseType" onChange={onChange}>
+                            <option value=''>-- Select Exercise Type --</option>
+                            {exerciseTypes.exerciseTypes.map((exerciseType) => (             
+                                <ExerciseTypeOption key={exerciseType._id} exerciseType={exerciseType} />
+                            ))}
+                        </select>
+                        </label>  
+                ) : (<div>Needs exercise types</div>)
+                }
+            </div>  
             <div className="form-group">
                 <label htmlFor="description">Description</label>
                 <input type="text" className="form-controll" id="description" name="description" value={description} onChange={onChange} />

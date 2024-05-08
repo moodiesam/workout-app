@@ -12,6 +12,8 @@ function Dashboard() {
 
     const {user} = useSelector((state) => state.auth)
     const { exercises, isLoading, isError, message } = useSelector((state) => state.exercises)
+    
+
 
     useEffect(() => {
         if(!user) {
@@ -22,12 +24,15 @@ function Dashboard() {
             console.log(message);
         }
 
+        // dispatch getExerciseTypes to create options for exercise form
+        
         dispatch(getExercises())
+        
 
         return () => {
             dispatch(reset())
         }
-    }, [user, navigate, dispatch, isError, message]) 
+    }, [user, navigate, dispatch]) // isError and message HIT A LOOP WHEN I LOGOUT
 
     if(isLoading) {
         return <Spinner />

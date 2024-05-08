@@ -118,6 +118,12 @@ h3 {
   margin-bottom: 10px;
 }
 
+.exerciseTypes {
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+}
+
 .form-group input,
 .form-group textarea,
 .form-group select {

@@ -35,14 +35,14 @@ exports.get_exerciseType = asyncHandler(async (req, res) => {
 
 // Get all Exercise Types
 exports.get_exerciseTypes = asyncHandler(async (req, res) => {
-    const allExerciseTypes = await ExerciseType.find();
+    const exerciseTypes = await ExerciseType.find();
 
-    if(!allExerciseTypes) {
+    if(!exerciseTypes) {
         res.status(400).json({ message: "No Exercise Types found." })
         return;
     }
 
-    res.status(200).json({ allExerciseTypes })
+    res.status(200).json({ exerciseTypes })
 })
 
 // Update an Exercise Type
