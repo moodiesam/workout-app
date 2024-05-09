@@ -1,7 +1,6 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import ExerciseForm from "../components/ExerciseForm"
 import ExerciseItem from "../components/ExerciseItem"
 import Spinner from "../components/Spinner"
 import { getExercises, reset } from "../features/exercises/exerciseSlice"
@@ -23,12 +22,9 @@ function Dashboard() {
         if(isError) {
             console.log(message);
         }
-
-        // dispatch getExerciseTypes to create options for exercise form
         
         dispatch(getExercises())
         
-
         return () => {
             dispatch(reset())
         }
@@ -41,12 +37,10 @@ function Dashboard() {
     return <>
         <section className="heading">
             <h1>Welcome {user && user.name}</h1>
-            <p>Create a New Exercise</p>
         </section>
-
-        <ExerciseForm />
-
+        
         <section className="content">
+            <h1>Exercises</h1>
             {exercises.exercises ? (
                 <div className="exercises">
                     {exercises.exercises.map((exercise) => (

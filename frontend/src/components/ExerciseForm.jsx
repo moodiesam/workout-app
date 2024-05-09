@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { createExercise } from "../features/exercises/exerciseSlice"
 import { getExerciseTypes, resetExerciseTypes } from "../features/exerciseTypes/exerciseTypeSlice"
 import ExerciseTypeOption from "./ExerciseTypeOption"
+import Spinner from "./Spinner"
 
 function ExerciseForm() {
     // Set form state similar to how register did it
@@ -31,7 +32,6 @@ function ExerciseForm() {
             dispatch(resetExerciseTypes())
         }
     }, [dispatch]) // isError and message HIT A LOOP WHEN I LOGOUT
-    //function for onChange
 
     const onChange = (e) => {
         setExerciseFormData((prevState) => ({
@@ -65,6 +65,12 @@ function ExerciseForm() {
             tips: ''
         })
     }
+
+    if(isLoading) {
+        return <Spinner />
+    }
+
+    //Create Component for list of exercises. Should be able to filter based on exercise type and only show the title
 
     return <section className="form">
         <form onSubmit={onSubmit}>
