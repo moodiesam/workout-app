@@ -20,6 +20,9 @@ function Header() {
             <div className='logo'>
                 <Link to='/'>Dashboard</Link>
             </div>
+            <div className="link">
+                <Link to='/exercises'>Exercises</Link>
+            </div>
             <ul>
                 {user ? (<>
                         <li>

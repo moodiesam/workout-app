@@ -4,6 +4,7 @@ import { createExercise } from "../features/exercises/exerciseSlice"
 import { getExerciseTypes, resetExerciseTypes } from "../features/exerciseTypes/exerciseTypeSlice"
 import ExerciseTypeOption from "./ExerciseTypeOption"
 import Spinner from "./Spinner"
+import { useNavigate } from "react-router-dom"
 
 function ExerciseForm() {
     // Set form state similar to how register did it
@@ -20,6 +21,7 @@ function ExerciseForm() {
     const { exerciseTypes, isLoading, isError, message } = useSelector((state) => state.exerciseTypes)
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
         dispatch(getExerciseTypes())
@@ -64,6 +66,8 @@ function ExerciseForm() {
             instructions: '',
             tips: ''
         })
+
+        navigate('/')
     }
 
     if(isLoading) {

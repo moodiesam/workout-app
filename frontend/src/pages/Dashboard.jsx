@@ -1,17 +1,15 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import ExerciseItem from "../components/ExerciseItem"
 import Spinner from "../components/Spinner"
-import { getExercises, reset } from "../features/exercises/exerciseSlice"
+import WorkoutItem from "../components/WorkoutItem"
+import { reset } from "../features/exercises/exerciseSlice"
 
 function Dashboard() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const {user} = useSelector((state) => state.auth)
-    const { exercises, isLoading, isError, message } = useSelector((state) => state.exercises)
-    
+    const {user, isLoading, isError, message} = useSelector((state) => state.auth)    
 
 
     useEffect(() => {
@@ -23,8 +21,6 @@ function Dashboard() {
             console.log(message);
         }
         
-        dispatch(getExercises())
-        
         return () => {
             dispatch(reset())
         }
@@ -34,22 +30,24 @@ function Dashboard() {
         return <Spinner />
     }
 
-    return <>
-        <section className="heading">
-            <h1>Welcome {user && user.name}</h1>
-        </section>
-        
-        <section className="content">
-            <h1>Exercises</h1>
-            {exercises.exercises ? (
-                <div className="exercises">
-                    {exercises.exercises.map((exercise) => (
-                        <ExerciseItem key={exercise._id} exercise={exercise} />
-                    ))}
-                </div>
-            ) : (<h3>There are no exercises</h3>)}
-        </section>
-    </>
+    if(user) {
+        return <>
+            <section className="heading">
+                <h1>Welcome {user && user.name}</h1>
+            </section>
+            
+            <section className="content">
+                <h1>Your Routines</h1>
+                {user.savedWorkouts ? (
+                    <div className="routines">
+                        {user.savedWorkouts.map((workout) => (
+                            <WorkoutItem key={workout._id} workout={workout} />
+                        ))}
+                    </div>
+                ) : (<h3>You have no saved routines.</h3>)}
+            </section>
+        </>
+    }
 }
 
 export default Dashboard

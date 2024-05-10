@@ -52,7 +52,7 @@ exports.create_user = asyncHandler(async (req, res) => {
 exports.login_user = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
-    const user = await User.findOne({email});
+    const user = await User.findOne({email}).populate("savedWorkouts");
 
     if (user && (await bcrypt.compare(password, user.password))) {
         res.json({
