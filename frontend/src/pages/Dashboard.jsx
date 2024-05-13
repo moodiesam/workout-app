@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import Spinner from "../components/Spinner"
 import WorkoutItem from "../components/WorkoutItem"
-import { reset } from "../features/exercises/exerciseSlice"
 
 function Dashboard() {
     const navigate = useNavigate()
@@ -21,9 +20,6 @@ function Dashboard() {
             console.log(message);
         }
         
-        return () => {
-            dispatch(reset())
-        }
     }, [user, navigate, dispatch]) // isError and message HIT A LOOP WHEN I LOGOUT
 
     if(isLoading) {

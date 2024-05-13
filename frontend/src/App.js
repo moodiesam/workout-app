@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Header from './components/Header';
 import CreateExercise from './pages/CreateExercise';
 import Exercises from './pages/Exercises';
+import Routines from './pages/Routines';
 
 // Will need to import pages and build routes for CRUD operations for Catagories, Routines and Exercises
 
@@ -22,6 +23,7 @@ function App() {
             <Route path='/register' element={<Register />} />
             <Route path='/createExercise' element={<CreateExercise />} />
             <Route path='/exercises' element={<Exercises />} />
+            <Route path='/routines' element={<Routines />} />
           </Routes>
         </div>
       </Router>

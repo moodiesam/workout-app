@@ -83,11 +83,11 @@ function ExerciseForm() {
                 <input type="text" className="form-controll" id="title" name="title" value={title} onChange={onChange} />
             </div>
             <div className="form-group">           
-                {exerciseTypes.exerciseTypes ? (
+                {exerciseTypes.length > 0 ? (
                     <label htmlFor="exerciseType">Exercise Type
                         <select id="exerciseType" name="exerciseType" onChange={onChange}>
                             <option value=''>-- Select Exercise Type --</option>
-                            {exerciseTypes.exerciseTypes.map((exerciseType) => (             
+                            {exerciseTypes.map((exerciseType) => (             
                                 <ExerciseTypeOption key={exerciseType._id} exerciseType={exerciseType} />
                             ))}
                         </select>

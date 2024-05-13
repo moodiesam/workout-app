@@ -27,9 +27,9 @@ function Exercises() {
     return <>
         <section className="content">
             <h1>Exercises</h1>
-            {exercises.exercises ? (
+            {exercises.length > 0 ? (
                 <div className="exercises">
-                    {exercises.exercises.map((exercise) => (
+                    {exercises.map((exercise) => (
                         <ExerciseItem key={exercise._id} exercise={exercise} />
                     ))}
                 </div>

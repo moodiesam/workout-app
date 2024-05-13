@@ -45,7 +45,7 @@ exports.get_exercises = asyncHandler(async (req, res) => {
         return;
     }
 
-    res.status(200).json({ exercises })
+    res.status(200).json(exercises)
 })
 
 // Update an Exercise

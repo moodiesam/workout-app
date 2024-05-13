@@ -42,7 +42,7 @@ exports.get_exerciseTypes = asyncHandler(async (req, res) => {
         return;
     }
 
-    res.status(200).json({ exerciseTypes })
+    res.status(200).json(exerciseTypes)
 })
 
 // Update an Exercise Type

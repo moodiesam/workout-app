@@ -35,14 +35,14 @@ exports.get_routine = asyncHandler(async (req, res) => {
 
 // Get all Routines
 exports.get_routines = asyncHandler(async (req, res) => {
-    const allRoutines = await Routine.find();
+    const routines = await Routine.find();
 
-    if(!allRoutines) {
+    if(!routines) {
         res.status(400).json({ message: "No Routines found." })
         return;
     }
 
-    res.status(200).json({ allRoutines })
+    res.status(200).json(routines)
 })
 
 // Update an Routine
