@@ -34,7 +34,7 @@ function Dashboard() {
             
             <section className="content">
                 <h1>Your Routines</h1>
-                {user.savedWorkouts ? (
+                {user.savedWorkouts.length > 0 ? (
                     <div className="routines">
                         {user.savedWorkouts.map((workout) => (
                             <WorkoutItem key={workout._id} workout={workout} />

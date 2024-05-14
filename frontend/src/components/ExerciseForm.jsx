@@ -54,8 +54,6 @@ function ExerciseForm() {
             tips
         }
 
-        console.log(exerciseData)
-
         dispatch(createExercise(exerciseData))
 
         setExerciseFormData({
@@ -67,7 +65,7 @@ function ExerciseForm() {
             tips: ''
         })
 
-        navigate('/')
+        navigate('/exercises')
     }
 
     if(isLoading) {
