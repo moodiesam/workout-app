@@ -30,7 +30,7 @@ exports.get_routine = asyncHandler(async (req, res) => {
         return;
     }
 
-    res.status(200).json({ routine })
+    res.status(200).json(routine)
 })
 
 // Get all Routines

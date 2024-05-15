@@ -21,6 +21,17 @@ export const getRoutines = createAsyncThunk('routines/getAll', async (_, thunkAP
     }
 })
 
+// Get Routine Details
+export const getRoutine = createAsyncThunk('routines/getOne', async (routineId, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await routineService.getRoutine(routineId, token)
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+		return thunkAPI.rejectWithValue(message)
+    }
+})
+
 export const routineSlice = createSlice({
     name: 'routine',
     initialState,
@@ -40,6 +51,21 @@ export const routineSlice = createSlice({
                 // getting converted from an array to something else, then the next time it's called it's not an array
             })
             .addCase(getRoutines.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(getRoutine.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getRoutine.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.routines = action.payload
+                // Sam - I think what's happening here is "state.excercises" is
+                // getting converted from an array to something else, then the next time it's called it's not an array
+            })
+            .addCase(getRoutine.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
