@@ -23,7 +23,7 @@ exports.create_routine = asyncHandler(async (req, res) => {
 
 // Get a Specific Routine
 exports.get_routine = asyncHandler(async (req, res) => {
-    const routine = await Routine.findById(req.params.id)
+    const routine = await Routine.findById(req.params.id).populate('exercises')
 
     if(!routine) {
         res.status(400).json({ message: "Routine not found." })

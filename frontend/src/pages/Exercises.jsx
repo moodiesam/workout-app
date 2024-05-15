@@ -4,6 +4,7 @@ import { getExercises, reset } from "../features/exercises/exerciseSlice";
 import Spinner from "../components/Spinner";
 import ExerciseItem from "../components/ExerciseItem";
 
+
 function Exercises() {
     const { exercises, isLoading, isError, message } = useSelector((state) => state.exercises)
     const dispatch = useDispatch()

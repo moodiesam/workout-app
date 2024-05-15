@@ -33,7 +33,7 @@ exports.get_exercise = asyncHandler(async (req, res) => {
         return;
     }
 
-    res.status(200).json({ exercise })
+    res.status(200).json(exercise)
 })
 
 // Get all Exercises

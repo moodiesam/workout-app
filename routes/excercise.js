@@ -7,7 +7,7 @@ const {protect} = require('../public/middleware/authMiddleware');
 router.post('/', protect, exercise_controller.create_exercise)
 
 // Get Exercise Info
-router.get('/:id', exercise_controller.get_exercise)
+router.get('/:id', protect, exercise_controller.get_exercise)
 
 // Get all Exercises
 router.get('/', protect, exercise_controller.get_exercises)

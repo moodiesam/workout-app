@@ -8,6 +8,7 @@ import Header from './components/Header';
 import CreateExercise from './pages/CreateExercise';
 import Exercises from './pages/Exercises';
 import Routines from './pages/Routines';
+import Exercise from './pages/ExerciseDetails';
 
 // Will need to import pages and build routes for CRUD operations for Catagories, Routines and Exercises
 
@@ -24,6 +25,7 @@ function App() {
             <Route path='/createExercise' element={<CreateExercise />} />
             <Route path='/exercises' element={<Exercises />} />
             <Route path='/routines' element={<Routines />} />
+            <Route path='/exercise/:id' element={<Exercise />} />
           </Routes>
         </div>
       </Router>

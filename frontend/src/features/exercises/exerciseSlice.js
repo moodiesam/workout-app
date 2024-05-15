@@ -32,6 +32,17 @@ export const getExercises = createAsyncThunk('exercises/getAll', async (_, thunk
 	}
 })
 
+// Get Exercise Details
+export const getExercise = createAsyncThunk('exercises/getOne', async (exerciseId, thunkAPI) => {
+	try {
+		const token = thunkAPI.getState().auth.user.token
+		return await exerciseService.getExercise(exerciseId, token)
+	} catch (error) {
+		const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+		return thunkAPI.rejectWithValue(message)
+	}
+})
+
 export const exerciseSlice = createSlice({
 	name: 'exercise',
 	initialState,
@@ -69,6 +80,21 @@ export const exerciseSlice = createSlice({
 				// getting converted from an array to something else, then the next time it's called it's not an array
 			})
 			.addCase(getExercises.rejected, (state, action) => {
+				state.isLoading = false
+				state.isError = true
+				state.message = action.payload
+			})
+			.addCase(getExercise.pending, (state) => {
+				state.isLoading = true
+			})
+			.addCase(getExercise.fulfilled, (state, action) => {
+				state.isLoading = false
+				state.isSuccess = true
+				state.exercises = action.payload
+				// Sam - I think what's happening here is "state.excercises" is
+				// getting converted from an array to something else, then the next time it's called it's not an array
+			})
+			.addCase(getExercise.rejected, (state, action) => {
 				state.isLoading = false
 				state.isError = true
 				state.message = action.payload
