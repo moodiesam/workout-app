@@ -1,30 +1,28 @@
 import { Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { saveRoutine } from '../features/auth/authSlice'
-import { useEffect } from "react"
 
 function RoutineItem({ routine }) {
     // Check if user is admin. and if so, add edit/delete buttons to exercises
 
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        // dispatch function to get user set to state
-        //should fire when saveRoutine is fired to update user in state
-    })
+    const { user } = useSelector((state) => state.auth)
 
     const onSave = e => {
         e.preventDefault()
 
-        const newRoutine = {
-            savedWorkouts: routine._id
+        const result = user.savedWorkouts.filter((workout) => workout._id === routine._id)
+
+        if(result[0]) {
+            console.log("Routine already saved")
+        } else {
+            const newRoutine = {
+                savedWorkouts: routine._id
+            }
+
+            dispatch(saveRoutine(newRoutine))
         }
-
-        dispatch(saveRoutine(newRoutine))
-
-        // After saving the routine, we need to re-fetch the user 
-        // to update the auth state
-
     }
 
     return (
