@@ -37,6 +37,18 @@ export const logout = createAsyncThunk('auth/logout', async () => {
     await authService.logout()
 })
 
+// Save Routine to User Profile
+export const saveRoutine = createAsyncThunk('auth/saveRoutine', async (routineId, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        const updateUser = thunkAPI.getState().auth.user.id
+        return await authService.saveRoutine(updateUser, routineId, token)
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+		return thunkAPI.rejectWithValue(message)
+    }
+})
+
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -80,6 +92,19 @@ export const authSlice = createSlice({
             })
             .addCase(logout.fulfilled, (state) => {
                 state.user = null
+            })
+            .addCase(saveRoutine.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(saveRoutine.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.user = action.payload
+            })
+            .addCase(saveRoutine.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
             })
     }
 })

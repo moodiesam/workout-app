@@ -90,9 +90,15 @@ exports.update_user = asyncHandler(async (req, res) => {
         return;
     }
 
-    const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {new: true})
+    const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {new: true}).populate("savedWorkouts")
 
-    res.json({ updatedUser })
+    res.json({
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        savedWorkouts: updatedUser.savedWorkouts,
+        token: generateToken(updatedUser.id)
+    })
 })
 
 // Delete a User
