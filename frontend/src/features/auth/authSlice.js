@@ -49,6 +49,18 @@ export const saveRoutine = createAsyncThunk('auth/saveRoutine', async (routineId
     }
 })
 
+// Remove Routine from User Profile
+export const removeRoutine = createAsyncThunk('auth/removeRoutine', async (updatedRoutines, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        const updateUser = thunkAPI.getState().auth.user.id
+        return await authService.removeRoutine(updateUser, updatedRoutines, token)
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+		return thunkAPI.rejectWithValue(message)
+    }
+})
+
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -102,6 +114,19 @@ export const authSlice = createSlice({
                 state.user = action.payload
             })
             .addCase(saveRoutine.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(removeRoutine.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(removeRoutine.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.user = action.payload
+            })
+            .addCase(removeRoutine.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

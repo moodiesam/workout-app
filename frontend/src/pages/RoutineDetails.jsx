@@ -32,12 +32,12 @@ function Routine() {
             <h3>{routines.description}</h3>
             {routines.exercises ? (
                 <ol className="exerciseList">
-                    {routines.exercises.map((exercise) => (
-                        <Link to={`/exercise/${exercise._id}`}>
+                    {routines.exercises.map((exercise) => (       
                             <li className="exerciseListItem" key={exercise._id}>
-                                {exercise.title}
-                            </li>
-                        </Link>
+                                <Link to={`/exercise/${exercise._id}`}>
+                                    {exercise.title}
+                                </Link>
+                            </li> 
                     ))}
                 </ol>
             ) : (<h3>No exercises</h3>)}
