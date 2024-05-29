@@ -33,7 +33,7 @@ function RoutineItem({ routine }) {
                 </Link>
                 <p>{routine.description}</p>
                 <p>Duration: {routine.duration}</p>
-                <button onClick={onSave} className="btn-save">Save Routine</button>
+                <button onClick={onSave} className="btn-action">Save Routine</button>
             </div>
         
     )

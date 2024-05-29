@@ -34,6 +34,9 @@ function Header() {
                             <Link to='/createExercise'>New Exercise</Link>
                         </li>
                         <li>
+                            <Link to='/createRoutine'>Create Routine</Link>
+                        </li>
+                        <li>
                             <button className='btn' onClick={onLogout}>
                                 <FaSignOutAlt /> Logout
                             </button>

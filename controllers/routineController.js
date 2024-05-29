@@ -18,7 +18,7 @@ exports.create_routine = asyncHandler(async (req, res) => {
         duration: req.body.duration,
     })
 
-    res.status(200).json({ newRoutine });
+    res.status(200).json(newRoutine);
 })
 
 // Get a Specific Routine

@@ -28,9 +28,22 @@ const getRoutine = async (routineId, token) => {
     return response.data
 }
 
+const createRoutine = async (routineData, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.post(API_URL, routineData, config)
+
+    return response.data
+}
+
 const routineService = {
     getRoutines,
-    getRoutine
+    getRoutine,
+    createRoutine
 }
 
 export default routineService

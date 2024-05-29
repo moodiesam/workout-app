@@ -3,6 +3,7 @@ import routineService from './routineService';
 
 const initialState = {
     routines: [],
+    newRoutine: [3, 5],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -32,11 +33,28 @@ export const getRoutine = createAsyncThunk('routines/getOne', async (routineId, 
     }
 })
 
+// Create New Routine
+export const createRoutine = createAsyncThunk('routines/create', async (routineData, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await routineService.createRoutine(routineData, token)
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+		return thunkAPI.rejectWithValue(message)
+    }
+})
+
 export const routineSlice = createSlice({
     name: 'routine',
     initialState,
     reducers: {
-        resetRoutines: (state) => initialState
+        resetRoutines: (state) => {
+            state.routines = []
+            state.isError = false
+            state.isSuccess = false
+            state.isLoading = false
+            state.message = ''
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -47,8 +65,6 @@ export const routineSlice = createSlice({
                 state.isLoading = false
                 state.isSuccess = true
                 state.routines = action.payload
-                // Sam - I think what's happening here is "state.excercises" is
-                // getting converted from an array to something else, then the next time it's called it's not an array
             })
             .addCase(getRoutines.rejected, (state, action) => {
                 state.isLoading = false
@@ -62,13 +78,29 @@ export const routineSlice = createSlice({
                 state.isLoading = false
                 state.isSuccess = true
                 state.routines = action.payload
-                // Sam - I think what's happening here is "state.excercises" is
-                // getting converted from an array to something else, then the next time it's called it's not an array
             })
             .addCase(getRoutine.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
+            })
+            .addCase(createRoutine.pending, (state) => {
+				state.isLoading = true
+			})
+			.addCase(createRoutine.fulfilled, (state, action) => {
+				state.isLoading = false
+				state.isSuccess = true
+				// check to make sure it's an array, and if not, make it an array
+				// see my comment below for what I think might be happening
+				if (!Array.isArray(state.routines)) {
+					state.routines = [];
+				}
+				state.routines.push(action.payload)
+			})
+			.addCase(createRoutine.rejected, (state, action) => {
+				state.isLoading = false
+				state.isError = true
+				state.message = action.payload
             })
     }
 })

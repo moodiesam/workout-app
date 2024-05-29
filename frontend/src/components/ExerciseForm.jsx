@@ -72,8 +72,6 @@ function ExerciseForm() {
         return <Spinner />
     }
 
-    //Create Component for list of exercises. Should be able to filter based on exercise type and only show the title
-
     return <section className="form">
         <form onSubmit={onSubmit}>
             <div className="form-group">

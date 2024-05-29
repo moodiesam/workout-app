@@ -25,7 +25,7 @@ function WorkoutItem({ workout }) {
                 <Link to={`/routine/${workout._id}`}>
                     <h3>{workout.title}</h3>
                 </Link>
-                <button onClick={onRemove} className="remove">Remove</button>
+                <button onClick={onRemove} className="btn-action">Remove</button>
             </div>
     )
 }
