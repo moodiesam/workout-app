@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { getExercise, reset } from "../features/exercises/exerciseSlice";
+import AddToRoutine from "../components/AddToRoutine";
 
 function Exercise() {
     const { id } = useParams()
@@ -32,6 +33,7 @@ function Exercise() {
             <h3>Area of Focus: {exercises.focusArea}</h3>
             <p>Instructions: {exercises.instructions}</p>
             <p>Tips: {exercises.tips}</p>
+            <AddToRoutine exerciseId={id} />
         </section>
     </>
 }

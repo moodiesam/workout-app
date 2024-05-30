@@ -70,5 +70,5 @@ exports.delete_routine = asyncHandler(async (req, res) => {
 
     await Routine.findByIdAndDelete(req.params.id)
 
-    res.status(200).json({ message: `Routine: ${routine.title}... had been deleted.` })
+    res.status(200).json(req.params.id)
 })

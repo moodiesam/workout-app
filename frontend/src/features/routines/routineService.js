@@ -28,6 +28,7 @@ const getRoutine = async (routineId, token) => {
     return response.data
 }
 
+// Create a new Routine
 const createRoutine = async (routineData, token) => {
     const config = {
         headers: {
@@ -40,10 +41,24 @@ const createRoutine = async (routineData, token) => {
     return response.data
 }
 
+//Delete a Routine
+const deleteRoutine = async (routineId, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.delete(API_URL + `${routineId}`, config)
+
+    return response.data
+}
+
 const routineService = {
     getRoutines,
     getRoutine,
-    createRoutine
+    createRoutine,
+    deleteRoutine
 }
 
 export default routineService

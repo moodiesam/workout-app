@@ -3,7 +3,7 @@ import routineService from './routineService';
 
 const initialState = {
     routines: [],
-    newRoutine: [3, 5],
+    newRoutine: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -33,11 +33,28 @@ export const getRoutine = createAsyncThunk('routines/getOne', async (routineId, 
     }
 })
 
+// Add Exercise to newRoutine
+export const addToNewRoutine = createAsyncThunk('newRoutine/addExercise', async (exerciseId, thunkAPI) => {
+    // Check if exercise already there?
+    return exerciseId
+})
+
 // Create New Routine
 export const createRoutine = createAsyncThunk('routines/create', async (routineData, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token
         return await routineService.createRoutine(routineData, token)
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+		return thunkAPI.rejectWithValue(message)
+    }
+})
+
+// Delete Routine
+export const deleteRoutine = createAsyncThunk('routines/delete', async(routineId, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await routineService.deleteRoutine(routineId, token)
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
 		return thunkAPI.rejectWithValue(message)
@@ -54,7 +71,16 @@ export const routineSlice = createSlice({
             state.isSuccess = false
             state.isLoading = false
             state.message = ''
+        },
+        resetNewRoutine: (state) => {
+            state.routines = []
+            state.newRoutine = []
+            state.isError = false
+            state.isSuccess = false
+            state.isLoading = false
+            state.message = ''
         }
+        
     },
     extraReducers: (builder) => {
         builder
@@ -84,6 +110,12 @@ export const routineSlice = createSlice({
                 state.isError = true
                 state.message = action.payload
             })
+// Add cases for pending and rejected
+            .addCase(addToNewRoutine.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.newRoutine.push(action.payload)
+            })
             .addCase(createRoutine.pending, (state) => {
 				state.isLoading = true
 			})
@@ -102,8 +134,22 @@ export const routineSlice = createSlice({
 				state.isError = true
 				state.message = action.payload
             })
+            .addCase(deleteRoutine.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(deleteRoutine.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                let filteredRoutines = state.routines.filter((routine) => routine._id !== action.payload)
+                state.routines = filteredRoutines
+            })
+            .addCase(deleteRoutine.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
     }
 })
 
-export const {resetRoutines} = routineSlice.actions
+export const {resetRoutines, resetNewRoutine} = routineSlice.actions
 export default routineSlice.reducer

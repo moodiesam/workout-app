@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { createRoutine } from "../features/routines/routineSlice"
+import { createRoutine, resetNewRoutine } from "../features/routines/routineSlice"
 // Will need a component to display each exercise in routine
 import Spinner from "./Spinner"
 import { useNavigate } from "react-router-dom"
@@ -51,7 +51,9 @@ function RoutineForm() {
 
         // Save routine to user's savedWorkouts array
 
+
         // Clear newRoutine array
+        dispatch(resetNewRoutine())
 
         navigate('/routines')
     }

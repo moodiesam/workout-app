@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import AddToRoutine from './AddToRoutine'
 
 function ExerciseItem({ exercise }) {
     // Check if user is admin. and if so, add edit/delete buttons to exercises
@@ -11,6 +12,7 @@ function ExerciseItem({ exercise }) {
                     <h4>Exercise Type: {exercise.exerciseType.title}</h4>
                 ) : (<></>)}
                 <h4>Area of Focus: {exercise.focusArea}</h4>
+                <AddToRoutine exerciseId={exercise._id} />
             </div>
         </Link>
     )

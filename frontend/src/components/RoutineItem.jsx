@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { saveRoutine } from '../features/auth/authSlice'
+import { deleteRoutine } from "../features/routines/routineSlice"
 
 function RoutineItem({ routine }) {
     // Check if user is admin. and if so, add edit/delete buttons to exercises
@@ -25,6 +26,12 @@ function RoutineItem({ routine }) {
         }
     }
 
+    const onDelete = e => {
+        e.preventDefault()
+
+        dispatch(deleteRoutine(routine._id))
+    }
+
     return (
         
             <div className="routine">
@@ -33,7 +40,10 @@ function RoutineItem({ routine }) {
                 </Link>
                 <p>{routine.description}</p>
                 <p>Duration: {routine.duration}</p>
-                <button onClick={onSave} className="btn-action">Save Routine</button>
+                <div className="actions">
+                    <button onClick={onSave} className="btn-action">Save Routine</button>
+                    <button onClick={onDelete} className="btn-action">Delete Routine</button>
+                </div>
             </div>
         
     )
