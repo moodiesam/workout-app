@@ -10,7 +10,8 @@ function Exercises() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { exercises, isLoading, isError, message } = useSelector((state) => state.exercises)
-    const {user} = useSelector((state) => state.auth)  
+    const { user } = useSelector((state) => state.auth)  
+    const { newRoutine } = useSelector((state) => state.routines)
     
 
     useEffect(() => {
@@ -39,7 +40,7 @@ function Exercises() {
             {exercises.length > 0 ? (
                 <div className="exercises">
                     {exercises.map((exercise) => (
-                        <ExerciseItem key={exercise._id} exercise={exercise} />
+                        <ExerciseItem key={exercise._id} exercise={exercise} newRoutine={newRoutine} />
                     ))}
                 </div>
             ) : (<h3>There are no exercises</h3>)}

@@ -57,7 +57,6 @@ function RoutineForm() {
 
         navigate('/routines')
     }
-
     
     if(isLoading) {
         return <Spinner />

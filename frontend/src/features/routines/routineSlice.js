@@ -110,11 +110,18 @@ export const routineSlice = createSlice({
                 state.isError = true
                 state.message = action.payload
             })
-// Add cases for pending and rejected
+            .addCase(addToNewRoutine.pending, (state) => {
+                state.isLoading = true
+            })
             .addCase(addToNewRoutine.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
                 state.newRoutine.push(action.payload)
+            })
+            .addCase(addToNewRoutine.rejected, (state, action) => {
+				state.isLoading = false
+				state.isError = true
+				state.message = action.payload
             })
             .addCase(createRoutine.pending, (state) => {
 				state.isLoading = true
