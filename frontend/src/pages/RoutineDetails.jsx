@@ -40,7 +40,7 @@ function Routine() {
                             </li> 
                     ))}
                 </ol>
-            ) : (<h3>No exercises</h3>)}
+            ) : (<h3>Routine has been removed</h3>)}
         </section>
     </>
 }

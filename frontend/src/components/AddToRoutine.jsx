@@ -8,8 +8,6 @@ function AddToRoutine({ exerciseId }) {
     const onClick = (e) => {
         e.preventDefault()
 
-        console.log(exerciseId)
-
         dispatch(addToNewRoutine(exerciseId))
     }
 
