@@ -195,6 +195,10 @@ h3 {
   appearance: button;
 }
 
+.btn-action:hover {
+  transform: scale(.95);
+}
+
 .btn:hover {
   transform: scale(0.98);
 }
