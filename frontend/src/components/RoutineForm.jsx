@@ -10,11 +10,13 @@ function RoutineForm() {
     const { newRoutine, isLoading, isError, message } = useSelector((state) => state.routines)
     const {user} = useSelector((state) => state.auth)
 
+    const exerciseIds = newRoutine.map((exercise) => exercise.id)
+
     const [routineFormData, setRoutineFormData] = useState({
         title: '',
         description: '',
         creater: user._id,
-        exercises: newRoutine,
+        exercises: exerciseIds,
         duration: ''
     })
 
@@ -22,6 +24,10 @@ function RoutineForm() {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    // let exerciseData equal an empty array
+    // forEach exercise in newRoutine, fetch the details and push it to exercise Data
+    // use exerciseData to populate returned list
 
     useEffect(() => {
         if(isError) {
@@ -80,7 +86,7 @@ function RoutineForm() {
                     {newRoutine && newRoutine.length > 0 ? (
                         <ul>
                             {newRoutine.map((exercise) => (
-                                <li key={exercise}>{exercise}</li>
+                                <li key={exercise.id}>{exercise.title}</li>
                             ))}
                         </ul>
                     ) : (<div>Select Exercises to add to Routine</div>)}

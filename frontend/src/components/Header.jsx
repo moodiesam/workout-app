@@ -7,6 +7,7 @@ function Header() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const {user} = useSelector((state) => state.auth)
+    const { newRoutine } = useSelector ((state) => state.routines)
 
 
     const onLogout = () => {
@@ -34,7 +35,7 @@ function Header() {
                             <Link to='/createExercise'>New Exercise</Link>
                         </li>
                         <li>
-                            <Link to='/createRoutine'>Create Routine</Link>
+                            <Link to='/createRoutine'>Create Routine({newRoutine.length})</Link>
                         </li>
                         <li>
                             <button className='btn' onClick={onLogout}>

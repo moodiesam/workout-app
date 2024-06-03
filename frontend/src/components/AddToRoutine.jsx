@@ -2,18 +2,22 @@ import { useDispatch, useSelector } from "react-redux"
 import { addToNewRoutine } from "../features/routines/routineSlice"
 
 
-function AddToRoutine({ exerciseId, newRoutine }) {
+function AddToRoutine({ exerciseId, exerciseTitle, newRoutine }) {
     const dispatch = useDispatch()
+    const exerciseData = {
+        title: exerciseTitle,
+        id: exerciseId
+    }
 
     const onClick = (e) => {
         e.preventDefault()
 
-        const alreadySaved = newRoutine.filter((exercise) => exercise === exerciseId)
+        const alreadySaved = newRoutine.filter((exercise) => exercise.id === exerciseId)
 
         if(alreadySaved[0]) {
             console.log("Exercise is already in the routine")
         } else {
-            dispatch(addToNewRoutine(exerciseId))
+            dispatch(addToNewRoutine(exerciseData))
         }
 
     }

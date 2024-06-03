@@ -12,7 +12,7 @@ function ExerciseItem({ exercise, newRoutine }) {
                     <h4>Exercise Type: {exercise.exerciseType.title}</h4>
                 ) : (<></>)}
                 <h4>Area of Focus: {exercise.focusArea}</h4>
-                <AddToRoutine exerciseId={exercise._id} newRoutine={newRoutine} />
+                <AddToRoutine exerciseId={exercise._id} exerciseTitle={exercise.title} newRoutine={newRoutine} />
             </div>
         </Link>
     )
