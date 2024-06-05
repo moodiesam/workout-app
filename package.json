@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
     "serverstart": "set DEBUG=workout-app:* && npm run devstart",
-    "client": "npm start --prefix frontend"
+    "client": "npm start --prefix frontend",
+    "build": "npm build --prefix frontend"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
