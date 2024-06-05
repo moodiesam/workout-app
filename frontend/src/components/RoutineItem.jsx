@@ -16,7 +16,7 @@ function RoutineItem({ routine }) {
         const result = user.savedWorkouts.filter((workout) => workout._id === routine._id)
 
         if(result[0]) {
-            console.log("Routine already saved")
+            alert("Routine already saved to profile")
         } else {
             let updatedRoutines = user.savedWorkouts.map((workout) => workout._id)
             updatedRoutines.push(routine._id)
@@ -42,10 +42,12 @@ function RoutineItem({ routine }) {
                     <h2>{routine.title}</h2>
                 </Link>
                 <p>{routine.description}</p>
-                <p>Duration: {routine.duration}</p>
+                <p>Duration: {routine.duration} minutes</p>
                 <div className="actions">
                     <button onClick={onSave} className="btn-action">Save Routine</button>
-                    <button onClick={onDelete} className="btn-action">Delete Routine</button>
+                    {user.id === "665f23b546e245811adb697f" ? (
+                        <button onClick={onDelete} className="btn-action">Delete Routine</button>
+                    ) : (<></>)}
                 </div>
             </div>
         

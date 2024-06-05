@@ -51,23 +51,27 @@ function RoutineForm() {
     const onSubmit = e => {
         e.preventDefault()
 
-        const routineData = {
-            title,
-            description,
-            creater,
-            exercises,
-            duration
+        if (!title || !description) {
+            alert("Please include a title and description")
+        } else {
+            const routineData = {
+                title,
+                description,
+                creater,
+                exercises,
+                duration
+            }
+
+            dispatch(createRoutine(routineData))
+
+            // Save routine to user's savedWorkouts array
+
+
+            // Clear newRoutine array
+            dispatch(resetNewRoutine())
+
+            navigate('/routines')
         }
-
-        dispatch(createRoutine(routineData))
-
-        // Save routine to user's savedWorkouts array
-
-
-        // Clear newRoutine array
-        dispatch(resetNewRoutine())
-
-        navigate('/routines')
     }
     
     if(isLoading) {
