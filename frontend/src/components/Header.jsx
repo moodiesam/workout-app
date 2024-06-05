@@ -31,9 +31,12 @@ function Header() {
             </ul>
             <ul>
                 {user ? (<>
+                    {user.id === "665f23b546e245811adb697f" ? (
                         <li>
                             <Link to='/createExercise'>New Exercise</Link>
                         </li>
+                        ) : (<></>)}
+                        
                         <li>
                             <Link to='/createRoutine'>Create Routine({newRoutine.length})</Link>
                         </li>

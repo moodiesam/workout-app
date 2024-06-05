@@ -34,10 +34,15 @@ export const getRoutine = createAsyncThunk('routines/getOne', async (routineId, 
 })
 
 // Add Exercise to newRoutine
-export const addToNewRoutine = createAsyncThunk('newRoutine/addExercise', async (exerciseId, thunkAPI) => {
+export const addToNewRoutine = createAsyncThunk('newRoutine/addExercise', async (exerciseData, thunkAPI) => {
     // Check if exercise already there?
-    return exerciseId
+    return exerciseData
 })
+
+// Remove Exercise from newRoutine
+export const removeFromNewRoutine = createAsyncThunk('newRoutine/removeExercise', async (exerciseData, thunkAPI) => {
+    return exerciseData
+}  )
 
 // Create New Routine
 export const createRoutine = createAsyncThunk('routines/create', async (routineData, thunkAPI) => {
@@ -119,6 +124,20 @@ export const routineSlice = createSlice({
                 state.newRoutine.push(action.payload)
             })
             .addCase(addToNewRoutine.rejected, (state, action) => {
+				state.isLoading = false
+				state.isError = true
+				state.message = action.payload
+            })
+            .addCase(removeFromNewRoutine.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(removeFromNewRoutine.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                let filteredRoutine = state.newRoutine.filter((exercise) => exercise.id !== action.payload)
+                state.newRoutine = filteredRoutine
+            })
+            .addCase(removeFromNewRoutine.rejected, (state, action) => {
 				state.isLoading = false
 				state.isError = true
 				state.message = action.payload

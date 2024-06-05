@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { createRoutine, resetNewRoutine } from "../features/routines/routineSlice"
+import { createRoutine, resetNewRoutine, removeFromNewRoutine } from "../features/routines/routineSlice"
 // Will need a component to display each exercise in routine
 import Spinner from "./Spinner"
 import { useNavigate } from "react-router-dom"
@@ -40,6 +40,12 @@ function RoutineForm() {
             ...prevState,
             [e.target.name]: e.target.value,
         }))
+    }
+
+    const onRemove = (e) => {
+        e.preventDefault()
+
+        dispatch(removeFromNewRoutine(e.target.id))
     }
 
     const onSubmit = e => {
@@ -86,7 +92,10 @@ function RoutineForm() {
                     {newRoutine && newRoutine.length > 0 ? (
                         <ul>
                             {newRoutine.map((exercise) => (
-                                <li key={exercise.id}>{exercise.title}</li>
+                                <li className="newRoutineItem" key={exercise.id}>
+                                    <div>{exercise.title}</div>
+                                    <button className="btn-action" id={exercise.id} onClick={onRemove} >Remove</button>
+                                </li>
                             ))}
                         </ul>
                     ) : (<div>Select Exercises to add to Routine</div>)}

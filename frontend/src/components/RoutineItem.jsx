@@ -18,8 +18,11 @@ function RoutineItem({ routine }) {
         if(result[0]) {
             console.log("Routine already saved")
         } else {
+            let updatedRoutines = user.savedWorkouts.map((workout) => workout._id)
+            updatedRoutines.push(routine._id)
+
             const newRoutine = {
-                savedWorkouts: routine._id
+                savedWorkouts: updatedRoutines
             }
 
             dispatch(saveRoutine(newRoutine))

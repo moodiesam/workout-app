@@ -14,6 +14,7 @@ function Exercises() {
     const { newRoutine } = useSelector((state) => state.routines)
     
 
+
     useEffect(() => {
         if(!user) {
             navigate('/login')
@@ -28,7 +29,7 @@ function Exercises() {
         return () => {
             dispatch(reset())
         }
-    }, [dispatch])
+    }, [dispatch, navigate])
 
     if(isLoading) {
         return <Spinner />

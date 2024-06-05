@@ -10,6 +10,7 @@ function Exercise() {
     const dispatch = useDispatch()
 
     const { exercises, isLoading, isError, message } = useSelector((state) => state.exercises)
+    const { newRoutine } = useSelector((state) => state.routines)
 
     useEffect(() => {
         if(isError) {
@@ -33,7 +34,7 @@ function Exercise() {
             <h3>Area of Focus: {exercises.focusArea}</h3>
             <p>Instructions: {exercises.instructions}</p>
             <p>Tips: {exercises.tips}</p>
-            <AddToRoutine exerciseId={id} />
+            <AddToRoutine exerciseId={id} exerciseTitle={exercises.title} newRoutine={newRoutine} />
         </section>
     </>
 }
