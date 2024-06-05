@@ -29,11 +29,11 @@ function Exercise() {
     }
 
     return <>
-        <section className="content">
+        <section className="exerciseContent">
             <h1>{exercises.title}</h1>
             <h3>Area of Focus: {exercises.focusArea}</h3>
-            <p>Instructions: {exercises.instructions}</p>
-            <p>Tips: {exercises.tips}</p>
+            <p><b>Instructions</b>: {exercises.instructions}</p>
+            <p><b>Tips</b>: {exercises.tips}</p>
             <AddToRoutine exerciseId={id} exerciseTitle={exercises.title} newRoutine={newRoutine} />
         </section>
     </>
