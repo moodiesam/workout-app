@@ -1,4 +1,5 @@
 const ExerciseType = require("../models/exercisetype");
+const Exercise = require("../models/exercise");
 const asyncHandler = require("express-async-handler");
 
 // Create an Exercise Type
@@ -23,14 +24,17 @@ exports.create_exerciseType = asyncHandler(async (req, res) => {
 
 // Get a Specific Exercise Type
 exports.get_exerciseType = asyncHandler(async (req, res) => {
-    const exerciseType = await ExerciseType.findById(req.params.id)
+    const [ exerciseType, allExercises] = await Promise.all([
+        ExerciseType.findById(req.params.id),
+        Exercise.find({ exerciseType: req.params.id }).populate("exerciseType")
+    ])
 
     if (!exerciseType) {
         res.status(400).json({ message: "Exercise Type not found." })
         return;
     }
 
-    res.status(200).json({ exerciseType })
+    res.status(200).json({exerciseType, allExercises})
 })
 
 // Get all Exercise Types

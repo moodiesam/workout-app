@@ -87,6 +87,13 @@ h3 {
   color: #828282;
 }
 
+.exerciseTypeLinks {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 10px;
+}
+
 .exercises,
 .routines {
   display: grid;

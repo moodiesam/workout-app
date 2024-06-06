@@ -19,6 +19,17 @@ export const getExerciseTypes = createAsyncThunk('exerciseTypes/getAll', async (
     }
 })
 
+// Get Exercise Type Details
+export const getExerciseType = createAsyncThunk('exerciseType/getDetails', async (exerciseTypeId, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await exerciseTypeService.getExerciseType(exerciseTypeId, token)
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
 export const exerciseTypeSlice = createSlice({
     name: 'exerciseType',
     initialState,
@@ -36,6 +47,19 @@ export const exerciseTypeSlice = createSlice({
             state.exerciseTypes = action.payload
         })
         .addCase(getExerciseTypes.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+        })
+        .addCase(getExerciseType.pending, (state) => {
+            state.isLoading = true
+        })
+        .addCase(getExerciseType.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.exerciseTypes = action.payload
+        })
+        .addCase(getExerciseType.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
             state.message = action.payload
