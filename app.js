@@ -24,15 +24,15 @@ async function main() {
 };
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/', indexRouter);
+// app.use('/', indexRouter);
 
 //API Routes
 app.use('/api/users', usersRouter);
@@ -40,12 +40,15 @@ app.use('/api/exercises', exerciseRouter);
 app.use('/api/routines', routineRouter);
 app.use('/api/exercisetypes', exercisetypeRouter);
 
-// Serve frontend
+// Serve Frontend
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
+  app.use(express.static(path.join(__dirname, './frontend/build')));
 
-  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')))
+  app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, './', 'frontend', 'build', 'index.html')))
+} else {
+  app.get('/', (req, res) => res.send("Please set to productions"));
 }
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
