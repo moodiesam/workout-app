@@ -12,6 +12,9 @@ router.get('/:id', protect, exercise_controller.get_exercise)
 // Get all Exercises
 router.get('/', protect, exercise_controller.get_exercises)
 
+// Get all Exercises of a given Type
+router.get('/type/:id', protect, exercise_controller.get_exercises_type)
+
 // Update an Exercise
 router.put('/:id', exercise_controller.update_exercise)
 

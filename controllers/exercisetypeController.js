@@ -22,7 +22,7 @@ exports.create_exerciseType = asyncHandler(async (req, res) => {
     res.status(200).json({ newExerciseType })
 })
 
-// Get a Specific Exercise Type
+// Get exercises for a Specific Exercise Type
 exports.get_exerciseType = asyncHandler(async (req, res) => {
     const [ exerciseType, allExercises] = await Promise.all([
         ExerciseType.findById(req.params.id),

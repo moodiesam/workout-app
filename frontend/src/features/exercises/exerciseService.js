@@ -41,10 +41,24 @@ const getExercise = async (exerciseId, token) => {
     return response.data
 }
 
+// Get Exercises By Type
+const getExercisesByType = async (exerciseTypeId, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.get(API_URL + 'type/' + `${exerciseTypeId}`, config)
+
+    return response.data
+}
+
 const exerciseService = {
     createExercise,
     getExercises,
-    getExercise
+    getExercise,
+    getExercisesByType
 }
 
 export default exerciseService

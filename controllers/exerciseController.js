@@ -48,6 +48,18 @@ exports.get_exercises = asyncHandler(async (req, res) => {
     res.status(200).json(exercises)
 })
 
+// Get all Exercises of a Given Type
+exports.get_exercises_type = asyncHandler(async (req, res) => {
+    const exercises = await Exercise.find({ exerciseType: req.params.id }).populate("exerciseType")
+
+    if(!exercises) {
+        res.status(400).json({ message: "No exercises found." })
+        return;
+    }
+
+    res.status(200).json(exercises)
+})
+
 // Update an Exercise
 exports.update_exercise = asyncHandler(async (req, res) => {
     const exercise = await Exercise.findById(req.params.id)

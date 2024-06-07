@@ -4,24 +4,23 @@ import { useParams } from "react-router-dom"
 import { getExerciseType, resetExerciseTypes } from "../features/exerciseTypes/exerciseTypeSlice"
 import Spinner from "../components/Spinner"
 import ExerciseItem from "../components/ExerciseItem"
+import { getExercisesByType, reset } from "../features/exercises/exerciseSlice"
 
 function ExerciseType() {
     const { id } = useParams()
     const dispatch = useDispatch()
-    const { exerciseTypes, isLoading, isError, message } = useSelector((state) => state.exerciseTypes)
+    const { exercises, isLoading, isError, message } = useSelector((state) => state.exercises)
     const { newRoutine } = useSelector((state) => state.routines)
-
-    console.log(exerciseTypes.exerciseType)
 
     useEffect(() => {
         if(isError) {
             console.log(message)
         }
-
-        dispatch(getExerciseType(id))
+        
+        dispatch(getExercisesByType(id))
 
         return () => {
-            dispatch(resetExerciseTypes())
+            dispatch(reset())
         }
     }, [dispatch])
 
@@ -30,10 +29,11 @@ function ExerciseType() {
     }
 
     return <section className="content">
-        {exerciseTypes.exerciseType ? (<>
-                <h1>Exercise Type: {exerciseTypes.exerciseType.title}</h1>
+        {exercises.length ? (<>
+                <h1>Exercise Type: {exercises[0].exerciseType.title}</h1>
+                {/* Find way to keep Exercise Type NavBar */}
                 <div className="exercises">
-                    {exerciseTypes.allExercises.map((exercise) => (
+                    {exercises.map((exercise) => (
                         <ExerciseItem key={exercise._id} exercise={exercise} newRoutine={newRoutine} />
                     ))}
                 </div>
