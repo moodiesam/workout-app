@@ -1,10 +1,10 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { getExerciseType, resetExerciseTypes } from "../features/exerciseTypes/exerciseTypeSlice"
 import Spinner from "../components/Spinner"
 import ExerciseItem from "../components/ExerciseItem"
 import { getExercisesByType, reset } from "../features/exercises/exerciseSlice"
+import ExerciseTypeLinks from "../components/ExerciseTypeLinks"
 
 function ExerciseType() {
     const { id } = useParams()
@@ -22,7 +22,7 @@ function ExerciseType() {
         return () => {
             dispatch(reset())
         }
-    }, [dispatch])
+    }, [dispatch, id])
 
     if(isLoading) {
         return <Spinner />
@@ -31,14 +31,18 @@ function ExerciseType() {
     return <section className="content">
         {exercises.length ? (<>
                 <h1>Exercise Type: {exercises[0].exerciseType.title}</h1>
-                {/* Find way to keep Exercise Type NavBar */}
+                <ExerciseTypeLinks />
                 <div className="exercises">
                     {exercises.map((exercise) => (
                         <ExerciseItem key={exercise._id} exercise={exercise} newRoutine={newRoutine} />
                     ))}
                 </div>
             </>
-            ) : (<div>No types</div>)}
+            ) : (<>
+                    <h1>No Exercises of This Type</h1>
+                    <ExerciseTypeLinks />
+                </>
+            )}
         
     </section>
 }
