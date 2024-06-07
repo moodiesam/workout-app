@@ -49,7 +49,7 @@ const getExercisesByType = async (exerciseTypeId, token) => {
         }
     }
 
-    const response = await axios.get(API_URL + 'type/' + `${exerciseTypeId}`, config)
+    const response = await axios.get(API_URL + `type/${exerciseTypeId}`, config)
 
     return response.data
 }

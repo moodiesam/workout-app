@@ -22,7 +22,7 @@ function ExerciseType() {
         return () => {
             dispatch(reset())
         }
-    }, [dispatch, id])
+    }, [dispatch, id, isError, message])
 
     if(isLoading) {
         return <Spinner />

@@ -16,17 +16,15 @@ function ExerciseTypeLinks() {
     }, [dispatch])
 
     return <>
-        
             {exerciseTypes.length ? (
                 <div className="exerciseTypeLinks">
                     {exerciseTypes.map((exerciseType) => (
-                        <Link to={`/exercisetype/${exerciseType._id}`}>
+                        <Link key={exerciseType._id} to={`/exercisetype/${exerciseType._id}`}>
                             {exerciseType.title}
                         </Link>
                     ))}
                 </div>
-            ) : (<div>No Exercise Types</div>)}
-        
+            ) : (<div>No Exercise Types</div>)} 
     </>
 }
 
