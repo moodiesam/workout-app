@@ -45,27 +45,31 @@ function ExerciseForm() {
     const onSubmit = e => {
         e.preventDefault()
 
-        const exerciseData = {
-            title, 
-            exerciseType, 
-            description, 
-            focusArea, 
-            instructions, 
-            tips
+        if (!title || !exerciseType || !description || !focusArea || !instructions || !tips) {
+            alert("Please fill out all areas")
+        } else {
+            const exerciseData = {
+                title, 
+                exerciseType, 
+                description, 
+                focusArea, 
+                instructions, 
+                tips
+            }
+
+            dispatch(createExercise(exerciseData))
+
+            setExerciseFormData({
+                title: '',
+                exerciseType: '',
+                description: '',
+                focusArea: '',
+                instructions: '',
+                tips: ''
+            })
+
+            navigate('/exercises')
         }
-
-        dispatch(createExercise(exerciseData))
-
-        setExerciseFormData({
-            title: '',
-            exerciseType: '',
-            description: '',
-            focusArea: '',
-            instructions: '',
-            tips: ''
-        })
-
-        navigate('/exercises')
     }
 
     if(isLoading) {
