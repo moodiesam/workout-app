@@ -50,6 +50,15 @@ function Login() {
         dispatch(login(userData))
     }
 
+    const guestLogin = () => {
+        const guestData = {
+            email: 'guest@gmail.com',
+            password: 'Guest12345'
+        }
+
+        dispatch(login(guestData))
+    }
+
     if(isLoading) {
         return <Spinner />
     }
@@ -74,6 +83,7 @@ function Login() {
                     <button type='submit' className='btn btn-block'>Submit</button>
                 </div>
             </form>
+            <button type='button' onClick={guestLogin} className="btn-action">Browse as Guest</button>
         </section>
     </>
 }
