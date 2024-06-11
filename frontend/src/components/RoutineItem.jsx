@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { saveRoutine } from '../features/auth/authSlice'
 import { deleteRoutine } from "../features/routines/routineSlice"
+import SaveRoutine from "./SaveRoutine"
 
 function RoutineItem({ routine }) {
     // Check if user is admin. and if so, add edit/delete buttons to exercises
@@ -9,25 +10,6 @@ function RoutineItem({ routine }) {
     const dispatch = useDispatch()
 
     const { user } = useSelector((state) => state.auth)
-
-    const onSave = e => {
-        e.preventDefault()
-
-        const result = user.savedWorkouts.filter((workout) => workout._id === routine._id)
-
-        if(result[0]) {
-            alert("Routine already saved to profile")
-        } else {
-            let updatedRoutines = user.savedWorkouts.map((workout) => workout._id)
-            updatedRoutines.push(routine._id)
-
-            const newRoutine = {
-                savedWorkouts: updatedRoutines
-            }
-
-            dispatch(saveRoutine(newRoutine))
-        }
-    }
 
     const onDelete = e => {
         e.preventDefault()
@@ -44,7 +26,7 @@ function RoutineItem({ routine }) {
                 <p>{routine.description}</p>
                 <p>Duration: {routine.duration} minutes</p>
                 <div className="actions">
-                    <button onClick={onSave} className="btn-action">Save Routine</button>
+                    <SaveRoutine routineId={routine._id} />
                     {user.id === "665f23b546e245811adb697f" ? (
                         <button onClick={onDelete} className="btn-action">Delete Routine</button>
                     ) : (<></>)}

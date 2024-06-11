@@ -28,7 +28,7 @@ function Exercises() {
         return () => {
             dispatch(reset())
         }
-    }, [dispatch, navigate, isError, message, user])
+    }, [dispatch, navigate, user])
 
     if(isLoading) {
         return <Spinner />
