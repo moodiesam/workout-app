@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { addToNewRoutine } from "../features/routines/routineSlice"
+import { useEffect } from "react"
 
 
 function AddToRoutine({ exerciseId, exerciseTitle, newRoutine }) {
@@ -9,21 +10,31 @@ function AddToRoutine({ exerciseId, exerciseTitle, newRoutine }) {
         id: exerciseId
     }
 
-    const onClick = (e) => {
-        e.preventDefault()
+    const alreadySaved = newRoutine.filter((exercise) => exercise.id === exerciseId)
 
-        const alreadySaved = newRoutine.filter((exercise) => exercise.id === exerciseId)
+    useEffect(() => {
+        if(alreadySaved[0]) {
+            let alreadyAdded = document.getElementById(exerciseId)
+            alreadyAdded.classList.add("addedExercise")
+        }
+    }, [alreadySaved, exerciseId])
+    
+
+    const onClick = (e) => {
+        e.preventDefault() 
 
         if(alreadySaved[0]) {
             console.log("Exercise is already in the routine")
         } else {
+            let added = document.getElementById(exerciseId)
+            added.classList.add("addedExercise")
             dispatch(addToNewRoutine(exerciseData))
         }
 
     }
 
     return<>
-    <button className="btn-action" onClick={onClick}>
+    <button className="btn-action" id={exerciseId} onClick={onClick}>
         Add to Routine
     </button>
     </>
