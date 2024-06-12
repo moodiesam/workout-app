@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { saveRoutine } from '../features/auth/authSlice'
+import { useEffect } from "react"
 
 
 function SaveRoutine({routineId}) {
@@ -7,14 +8,24 @@ function SaveRoutine({routineId}) {
 
     const { user } = useSelector((state) => state.auth)
 
+    const result = user.savedWorkouts.filter((workout) => workout._id === routineId)
+
+    useEffect(() => {
+        if(result[0]) {
+            let alreadySaved = document.getElementById(routineId)
+            alreadySaved.classList.add("added")
+            alreadySaved.innerHTML = "Routine Saved"
+        }
+    }, [result, routineId])
+
     const onSave = e => {
         e.preventDefault()
-
-        const result = user.savedWorkouts.filter((workout) => workout._id === routineId)
 
         if(result[0]) {
             alert("Routine already saved to profile")
         } else {
+            let added = document.getElementById(routineId)
+            added.classList.add("added")
             let updatedRoutines = user.savedWorkouts.map((workout) => workout._id)
             updatedRoutines.push(routineId)
 
@@ -27,7 +38,7 @@ function SaveRoutine({routineId}) {
     }
 
     return <>
-        <button onClick={onSave} className="btn-action">Save Routine</button>
+        <button onClick={onSave} id={routineId} className="btn-action">Save Routine</button>
     </>
 }
 

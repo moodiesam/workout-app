@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { addToNewRoutine } from "../features/routines/routineSlice"
 import { useEffect } from "react"
 
@@ -15,7 +15,8 @@ function AddToRoutine({ exerciseId, exerciseTitle, newRoutine }) {
     useEffect(() => {
         if(alreadySaved[0]) {
             let alreadyAdded = document.getElementById(exerciseId)
-            alreadyAdded.classList.add("addedExercise")
+            alreadyAdded.classList.add("added")
+            alreadyAdded.innerHTML = "Added to new Routine"
         }
     }, [alreadySaved, exerciseId])
     
@@ -27,7 +28,7 @@ function AddToRoutine({ exerciseId, exerciseTitle, newRoutine }) {
             console.log("Exercise is already in the routine")
         } else {
             let added = document.getElementById(exerciseId)
-            added.classList.add("addedExercise")
+            added.classList.add("added")
             dispatch(addToNewRoutine(exerciseData))
         }
 
