@@ -133,8 +133,20 @@ h3 {
 
 .newRoutineItem {
   display: grid;
-  grid-template-columns: 1fr 100px;
+  grid-template-columns: 50px 1fr 100px;
   padding: 5px 0px;
+}
+
+.newRoutineItem .dragging {
+  opacity: .5;
+}
+
+.currentDropSpot {
+  border-bottom: black dotted 2px;
+}
+
+.noPointerEvents {
+  pointer-events: none;
 }
 
 .exercise .close {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { createRoutine, resetNewRoutine, removeFromNewRoutine } from "../features/routines/routineSlice"
+import { createRoutine, resetNewRoutine, removeFromNewRoutine, rearrangeNewRoutine } from "../features/routines/routineSlice"
 // Will need a component to display each exercise in routine
 import Spinner from "./Spinner"
 import { useNavigate } from "react-router-dom"
@@ -45,7 +45,7 @@ function RoutineForm() {
     const onRemove = (e) => {
         e.preventDefault()
 
-        dispatch(removeFromNewRoutine(e.target.id))
+        dispatch(removeFromNewRoutine(e.target.parentElement.id))
     }
 
     const onSubmit = e => {
@@ -64,16 +64,68 @@ function RoutineForm() {
 
             dispatch(createRoutine(routineData))
 
-            // Save routine to user's savedWorkouts array
+            // TODO Save routine to user's savedWorkouts array
 
-
-            // Clear newRoutine array
             dispatch(resetNewRoutine())
 
             navigate('/routines')
         }
     }
     
+    // Drag and drop to change the order of the exercises
+    let draggedExercise
+    let dropSpot
+    let exerciseOrder = newRoutine.map((exercise) => exercise);
+    
+    const dragStart = (e) => {
+        draggedExercise = e.target
+        draggedExercise.style.opacity = .5
+    }
+
+    const handleDragEnter = (e) => {
+        if(e.target.id) {
+            dropSpot = e.target.id
+            let currentDropSpot = document.getElementById(dropSpot)
+            currentDropSpot.className = 'currentDropSpot newRoutineItem'
+        } 
+    }
+
+    const handleDragLeave = (e) => {
+        
+            let oldDropSpot = document.getElementById(e.target.id)
+            oldDropSpot.className = 'newRoutineItem'
+        
+    }
+
+    const handleDrop = () => {
+
+        if(draggedExercise.id === dropSpot) {
+            draggedExercise.style.opacity = 1
+            return
+        }
+
+        const draggedExerciseIndex = exerciseOrder.findIndex(object => {
+            return object.id === draggedExercise.id
+        })
+        let movedObject = exerciseOrder[draggedExerciseIndex]
+
+        exerciseOrder.splice(draggedExerciseIndex, 1)
+
+        const dropSpotIndex = exerciseOrder.findIndex(object => {
+            return object.id === dropSpot
+        })
+
+        // ! Places moved item UNDER dropSpot... Need to also be able to insert it above
+        exerciseOrder.splice(dropSpotIndex + 1, 0, movedObject)
+
+        handleNewOrder(exerciseOrder)
+    }
+
+    const handleNewOrder = (exerciseOrder) => {
+        // set state to exerciseOrder
+        dispatch(rearrangeNewRoutine(exerciseOrder))
+    }
+
     if(isLoading) {
         return <Spinner />
     }
@@ -94,11 +146,12 @@ function RoutineForm() {
             </div>
             <div className="form-group">    
                     {newRoutine && newRoutine.length > 0 ? (
-                        <ul>
+                        <ul id="exerciseList">
                             {newRoutine.map((exercise) => (
-                                <li className="newRoutineItem" key={exercise.id}>
-                                    <div>{exercise.title}</div>
-                                    <button className="btn-action" id={exercise.id} onClick={onRemove} >Remove</button>
+                                <li className="newRoutineItem" id={exercise.id} draggable='true' onDragStart={dragStart} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragEnd={handleDrop} key={exercise.id}>
+                                    <div className="noPointerEvents">#</div>
+                                    <div className="noPointerEvents" >{exercise.title}</div>
+                                    <button className="btn-action noPointerEvents" onClick={onRemove} >Remove</button>
                                 </li>
                             ))}
                         </ul>

@@ -44,6 +44,11 @@ export const removeFromNewRoutine = createAsyncThunk('newRoutine/removeExercise'
     return exerciseData
 }  )
 
+// Rearrange newRoutine
+export const rearrangeNewRoutine = createAsyncThunk('newRoutine/rearrange', async (exerciseData, thunkAPI) => {
+    return exerciseData
+})
+
 // Create New Routine
 export const createRoutine = createAsyncThunk('routines/create', async (routineData, thunkAPI) => {
     try {
@@ -138,6 +143,19 @@ export const routineSlice = createSlice({
                 state.newRoutine = filteredRoutine
             })
             .addCase(removeFromNewRoutine.rejected, (state, action) => {
+				state.isLoading = false
+				state.isError = true
+				state.message = action.payload
+            })
+            .addCase(rearrangeNewRoutine.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(rearrangeNewRoutine.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.newRoutine = action.payload
+            })
+            .addCase(rearrangeNewRoutine.rejected, (state, action) => {
 				state.isLoading = false
 				state.isError = true
 				state.message = action.payload
