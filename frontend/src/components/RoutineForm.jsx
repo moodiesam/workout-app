@@ -93,8 +93,9 @@ function RoutineForm() {
     const handleDragLeave = (e) => {
         
             let oldDropSpot = document.getElementById(e.target.id)
-            oldDropSpot.className = 'newRoutineItem'
-        
+            if (oldDropSpot) {
+                oldDropSpot.className = 'newRoutineItem'
+            }
     }
 
     const handleDrop = () => {
@@ -151,7 +152,7 @@ function RoutineForm() {
                                 <li className="newRoutineItem" id={exercise.id} draggable='true' onDragStart={dragStart} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragEnd={handleDrop} key={exercise.id}>
                                     <div className="noPointerEvents">#</div>
                                     <div className="noPointerEvents" >{exercise.title}</div>
-                                    <button className="btn-action noPointerEvents" onClick={onRemove} >Remove</button>
+                                    <button className="btn-action" onClick={onRemove} >Remove</button>
                                 </li>
                             ))}
                         </ul>
